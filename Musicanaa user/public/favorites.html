@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorites - Musicana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="images/Vector-1.png">
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white font-sans">
+    <div class="container mx-auto px-3 sm:px-4 py-4 sm:py-6 max-w-7xl">
+        <!-- Header -->
+        <header class="flex flex-wrap justify-between items-center mb-6 sm:mb-8 gap-4">
+            <div class="flex items-center gap-2">
+                <img src="../images/Vector-1.png" alt="Musicana Logo" class="w-10 sm:w-14">
+                <h1 class="text-xl sm:text-2xl font-bold">Musicana</h1>
+            </div>
+            
+            <div class="flex items-center gap-3 sm:gap-6 order-3 sm:order-2 w-full sm:w-auto">
+                <div class="relative flex-1 sm:flex-initial">
+                    <!-- ADDED: ID and event listener for search input -->
+                    <input type="text" id="search-input" placeholder="Search music, artists..." class="bg-gray-800/50 border border-gray-700 rounded-full py-2 sm:py-2.5 px-4 sm:px-5 pl-10 sm:pl-11 w-full sm:w-64 md:w-72 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all backdrop-blur-sm text-sm sm:text-base">
+                    <i class="fas fa-search absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    
+                    <!-- ADDED: Dropdown container for search results -->
+                    <div id="search-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-gray-800/95 backdrop-blur-sm border border-gray-700 rounded-xl shadow-lg z-50 hidden max-h-80 overflow-y-auto">
+                        <div id="search-results" class="divide-y divide-gray-700/50"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3 order-2 sm:order-3">
+                <button id="mobile-menu-btn" class="lg:hidden w-10 h-10 rounded-full bg-gray-800/50 flex items-center justify-center hover:bg-purple-600/30 transition-colors">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-purple-500 flex-shrink-0">
+                    <img src="http://static.photos/people/200x200/1" alt="User" class="w-full h-full object-cover">
+                </div>
+                <a href="loginForm.html" class="font-medium hidden sm:block">Alex</a>
+            </div>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 pb-24 sm:pb-32">
+            <!-- Mobile Sidebar Overlay -->
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+            
+            <!-- Left Sidebar -->
+            <div id="sidebar" class="fixed lg:relative top-0 left-0 h-full w-72 sm:w-80 lg:w-1/4 z-50 lg:z-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out bg-gray-900 lg:bg-transparent overflow-y-auto">
+                <div class="p-4 lg:p-0">
+                    <button id="close-sidebar" class="lg:hidden absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <nav class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 mt-12 lg:mt-0">
+                        <h2 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center">
+                            <i class="fas fa-bars mr-2 text-purple-400"></i> Navigation
+                        </h2>
+                        <ul class="space-y-1 sm:space-y-2">
+                            <li class="nav-item">
+                                <a href="index.html" class="flex items-center w-full"><i class="fas fa-home mr-3"></i><span>Home</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="discover.html" class="flex items-center w-full"><i class="fas fa-compact-disc mr-3"></i><span>Discover</span></a>
+                            </li>
+                            <li class="nav-item active">
+                                <a href="favorites.html" class="flex items-center w-full"><i class="fas fa-heart mr-3"></i><span>Favorites</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="recently-played.html" class="flex items-center w-full"><i class="fas fa-history mr-3"></i><span>Recently Played</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="playlists.html" class="flex items-center w-full"><i class="fas fa-music mr-3"></i><span>Playlists</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="settings.html" class="flex items-center w-full"><i class="fas fa-sliders-h mr-3"></i><span>Settings</span></a>
+                            </li>
+                        </ul>
+                        <div class="mt-6 sm:mt-8">
+                            <h2 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center">
+                                <i class="fas fa-filter mr-2 text-purple-400"></i> Filter Favorites
+                            </h2>
+                            <ul class="space-y-1 sm:space-y-2">
+                                <li class="filter-item active">
+                                    <i class="fas fa-music mr-3"></i>
+                                    <span>All Tracks</span>
+                                </li>
+                                <li class="filter-item">
+                                    <i class="fas fa-user mr-3"></i>
+                                    <span>Artists</span>
+                                </li>
+                                <li class="filter-item">
+                                    <i class="fas fa-compact-disc mr-3"></i>
+                                    <span>Albums</span>
+                                </li>
+                                <li class="filter-item">
+                                    <i class="fas fa-headphones mr-3"></i>
+                                    <span>Playlists</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    
+                    <!-- Favorites Stats -->
+                    <div class="bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-sm rounded-2xl p-4 sm:p-6">
+                        <h2 class="text-base sm:text-lg font-semibold mb-4">Your Favorites</h2>
+                        <div class="space-y-4">
+                            <div class="text-center">
+                                <div class="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">142</div>
+                                <p class="text-gray-300 text-sm">Total Favorites</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                                <div class="bg-gray-800/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <div class="text-lg sm:text-xl font-bold mb-1">87</div>
+                                    <p class="text-gray-400 text-xs sm:text-sm">Tracks</p>
+                                </div>
+                                <div class="bg-gray-800/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <div class="text-lg sm:text-xl font-bold mb-1">42</div>
+                                    <p class="text-gray-400 text-xs sm:text-sm">Artists</p>
+                                </div>
+                                <div class="bg-gray-800/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <div class="text-lg sm:text-xl font-bold mb-1">28</div>
+                                    <p class="text-gray-400 text-xs sm:text-sm">Albums</p>
+                                </div>
+                                <div class="bg-gray-800/50 rounded-xl p-3 sm:p-4 text-center">
+                                    <div class="text-lg sm:text-xl font-bold mb-1">15</div>
+                                    <p class="text-gray-400 text-xs sm:text-sm">Playlists</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="w-full lg:w-3/4">
+                <!-- Page Header -->
+                <div class="bg-gradient-to-r from-purple-900/40 to-blue-900/40 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 relative overflow-hidden">
+                    <div class="absolute -right-16 -top-16 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-r from-purple-600 to-blue-500 rounded-full opacity-20 blur-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-4">
+                            <div>
+                                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold">Your Favorites</h2>
+                                <p class="text-gray-300 text-xs sm:text-sm">All the music you&apos;ve loved in one place</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-4 mt-4 sm:mt-6">
+                            <button class="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white font-medium py-2 px-4 sm:px-6 rounded-full transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm">
+                                <i class="fas fa-play mr-2"></i> Play All
+                            </button>
+                            <button class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full transition-all duration-300 text-xs sm:text-sm">
+                                <i class="fas fa-random mr-2"></i> Shuffle
+                            </button>
+                            <button class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full transition-all duration-300 text-xs sm:text-sm hidden sm:inline-flex">
+                                <i class="fas fa-download mr-2"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Favorite Tabs -->
+                <div class="flex border-b border-gray-700 mb-6 sm:mb-8 overflow-x-auto favorite-tabs">
+                    <button class="bg-gradient-to-r from-purple-600 to-blue-500 text-white font-medium py-2 px-4 sm:px-6 rounded-full m-1 sm:m-2 text-xs sm:text-sm flex-shrink-0">Tracks</button>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full transition-all duration-300 m-1 sm:m-2 text-xs sm:text-sm flex-shrink-0">Artists</button>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full transition-all duration-300 m-1 sm:m-2 text-xs sm:text-sm flex-shrink-0">Albums</button>
+                    <button class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full transition-all duration-300 m-1 sm:m-2 text-xs sm:text-sm flex-shrink-0">Playlists</button>
+                </div>
+                
+                <!-- Favorite Tracks - Mobile Card View -->
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-6">
+                    <!-- Mobile View - Cards -->
+                    <div class="space-y-3 md:hidden">
+                        <div class="bg-gray-800/30 rounded-xl p-3 border border-gray-700/50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img src="http://static.photos/technology/200x200/1" alt="Track" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-medium text-sm truncate">Midnight City</h3>
+                                    <p class="text-gray-400 text-xs truncate">M83</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                                        <i class="fas fa-play text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800/30 rounded-xl p-3 border border-gray-700/50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img src="http://static.photos/technology/200x200/2" alt="Track" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-medium text-sm truncate">Blinding Lights</h3>
+                                    <p class="text-gray-400 text-xs truncate">The Weeknd</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                                        <i class="fas fa-play text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800/30 rounded-xl p-3 border border-gray-700/50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img src="http://static.photos/technology/200x200/3" alt="Track" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-medium text-sm truncate">Levitating</h3>
+                                    <p class="text-gray-400 text-xs truncate">Dua Lipa</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                                        <i class="fas fa-play text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800/30 rounded-xl p-3 border border-gray-700/50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                                    <img src="http://static.photos/technology/200x200/4" alt="Track" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-medium text-sm truncate">Stay</h3>
+                                    <p class="text-gray-400 text-xs truncate">The Kid LAROI, Justin Bieber</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                                        <i class="fas fa-play text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Desktop View - Table -->
+                    <div class="hidden md:block overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-gray-700">
+                                    <th class="text-left py-3 px-4 text-gray-400 font-medium text-sm">#</th>
+                                    <th class="text-left py-3 px-4 text-gray-400 font-medium text-sm">Title</th>
+                                    <th class="text-left py-3 px-4 text-gray-400 font-medium text-sm">Artist</th>
+                                    <th class="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden lg:table-cell">Album</th>
+                                    <th class="text-left py-3 px-4 text-gray-400 font-medium text-sm hidden xl:table-cell">Date Added</th>
+                                    <th class="text-left py-3 px-4 text-gray-400 font-medium text-sm"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors duration-200">
+                                    <td class="py-4 px-4">
+                                        <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                                            <i class="fas fa-play text-sm"></i>
+                                        </button>
+                                    </td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-lg overflow-hidden mr-3">
+                                                <img src="http://static.photos/technology/200x200/1" alt="Track" class="w-full h-full object-cover">
+                                            </div>
+                                            <h3 class="font-medium text-sm">Midnight City</h3>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm">M83</td>
+                                    <td class="py-4 px-4 text-sm hidden lg:table-cell">Hurry Up, We&apos;re Dreaming</td>
+                                    <td class="py-4 px-4 hidden xl:table-cell">
+                                        <span class="text-gray-400 text-sm">2 weeks ago</span>
+                                    </td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex gap-2">
+                                            <button class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 transition-colors">
+                                                <i class="fas fa-heart text-sm"></i>
+                                            </button>
+                                            <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-blue-600 transition-colors">
+                                                <i class="fas fa-plus text-sm"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors duration-200">
+                                    <td class="py-4 px-4">
+                                        <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                                            <i class="fas fa-play text-sm"></i>
+                                        </button>
+                                    </td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-lg overflow-hidden mr-3">
+                                                <img src="http://static.photos/technology/200x200/2" alt="Track" class="w-full h-full object-cover">
+                                            </div>
+                                            <h3 class="font-medium text-sm">Blinding Lights</h3>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm">The Weeknd</td>
+                                    <td class="py-4 px-4 text-sm hidden lg:table-cell">After Hours</td>
+                                    <td class="py-4 px-4 hidden xl:table-cell">
+                                        <span class="text-gray-400 text-sm">1 week ago</span>
+                                    </td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex gap-2">
+                                            <button class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 transition-colors">
+                                                <i class="fas fa-heart text-sm"></i>
+                                            </button>
+                                            <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-blue-600 transition-colors">
+                                                <i class="fas fa-plus text-sm"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors duration-200">
+                                    <td class="py-4 px-4">
+                                        <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-purple-600 transition-colors">
+                                            <i class="fas fa-play text-sm"></i>
+                                        </button>
+                                    </td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-lg overflow-hidden mr-3">
+                                                <img src="http://static.photos/technology/200x200/3" alt="Track" class="w-full h-full object-cover">
+                                            </div>
+                                            <h3 class="font-medium text-sm">Levitating</h3>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-4 text-sm">Dua Lipa</td>
+                                    <td class="py-4 px-4 text-sm hidden lg:table-cell">Future Nostalgia</td>
+                                    <td class="py-4 px-4 hidden xl:table-cell">
+                                        <span class="text-gray-400 text-sm">5 days ago</span>
+                                    </td>
+                                    <td class="py-4 px-4">
+                                        <div class="flex gap-2">
+                                            <button class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center hover:bg-red-700 transition-colors">
+                                                <i class="fas fa-heart text-sm"></i>
+                                            </button>
+                                            <button class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-blue-600 transition-colors">
+                                                <i class="fas fa-plus text-sm"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Player Bar - Desktop -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-purple-900/95 to-blue-900/95 backdrop-blur-md border-t border-purple-500/30 z-50 hidden sm:block">
+        <div class="container mx-auto px-3 sm:px-4 py-2 sm:py-3 max-w-7xl">
+            <div class="mb-2 sm:mb-3">
+                <div class="w-full h-1 bg-gray-700/50 rounded-full overflow-hidden cursor-pointer" id="progress-bar-container">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-purple-500 to-blue-500 w-1/3"></div>
+                </div>
+            </div>
+            <div class="flex items-center justify-between gap-2 sm:gap-4">
+                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 w-32 sm:w-40 md:w-48">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden flex-shrink-0">
+                        <img id="now-playing-img" src="http://static.photos/technology/200x200/1" alt="Album" class="w-full h-full object-cover">
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <h3 id="now-playing-title" class="font-semibold text-xs sm:text-sm truncate">Midnight City</h3>
+                        <p id="now-playing-artist" class="text-gray-300 text-xs truncate">M83</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center gap-1 sm:gap-2 flex-1">
+                    <button class="player-btn-sm hidden sm:flex" id="shuffle-btn" title="Shuffle">
+                        <i class="fas fa-random text-xs"></i>
+                    </button>
+                    <button class="player-btn-sm" id="prev-btn" title="Previous">
+                        <i class="fas fa-step-backward text-xs"></i>
+                    </button>
+                    <button class="player-btn-lg" id="play-pause-btn" title="Play/Pause">
+                        <i class="fas fa-play text-sm" id="play-icon"></i>
+                    </button>
+                    <button class="player-btn-sm" id="next-btn" title="Next">
+                        <i class="fas fa-step-forward text-xs"></i>
+                    </button>
+                    <button class="player-btn-sm hidden sm:flex" id="repeat-btn" title="Repeat">
+                        <i class="fas fa-redo text-xs"></i>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 w-32 sm:w-40 md:w-48 justify-end">
+                    <div class="text-xs text-gray-300 min-w-max hidden sm:block">
+                        <span id="current-time">0:00</span> / <span id="total-time">0:00</span>
+                    </div>
+                    <div class="w-16 sm:w-20 items-center gap-1 hidden md:flex">
+                        <i class="fas fa-volume-up text-gray-400 text-xs"></i>
+                        <div class="w-full h-0.5 bg-gray-700/50 rounded-full overflow-hidden cursor-pointer" id="volume-bar-container">
+                            <div id="volume-bar" class="h-full bg-gradient-to-r from-purple-500 to-blue-500 w-3/4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Player Bar -->
+    <div class="mobile-player fixed bottom-0 left-0 right-0 bg-gray-900/95 backdrop-blur-md border-t border-gray-800 p-3 sm:hidden z-50">
+        <div class="flex items-center justify-between">
+            <!-- Clickable area to open full screen player (mobile only) -->
+            <div class="flex items-center min-w-0 flex-1 cursor-pointer" id="mobile-player-expand-trigger">
+                <div class="w-12 h-12 rounded-lg overflow-hidden mr-3 flex-shrink-0">
+                    <img id="mobile-track-img" src="http://static.photos/technology/200x200/1" alt="Track" class="w-full h-full object-cover">
+                </div>
+                <div class="min-w-0 flex-1">
+                    <h3 id="mobile-track-title" class="font-medium text-sm truncate">Midnight City</h3>
+                    <p id="mobile-track-artist" class="text-gray-400 text-xs truncate">M83</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                <button class="mobile-player-btn" id="mobile-prev-btn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="mobile-play-pause-btn" id="mobile-play-pause-btn">
+                    <i class="fas fa-play" id="mobile-play-icon"></i>
+                </button>
+                <button class="mobile-player-btn" id="mobile-next-btn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Screen Now Playing (Mobile Only) -->
+    <div id="fullscreen-player" class="fixed inset-0  bg-gray-900/95 full-scrren-song transform translate-y-full transition-transform duration-300 ease-out sm:hidden">
+        <div class="h-full flex flex-col px-6 py-8 safe-area-inset">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
+                <button id="fullscreen-player-close" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                    <i class="fas fa-chevron-down text-white"></i>
+                </button>
+                <div class="text-center">
+                    <p class="text-xs text-gray-400 uppercase tracking-wider">Now Playing</p>
+                </div>
+                <button class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                    <i class="fas fa-ellipsis-h text-white"></i>
+                </button>
+            </div>
+
+            <!-- Album Art -->
+            <div class="flex-1 flex items-center justify-center mb-8">
+                <div class="w-64 h-64 rounded-2xl overflow-hidden shadow-2xl shadow-purple-500/30">
+                    <img id="fullscreen-track-img" src="http://static.photos/technology/200x200/1" alt="Album Art" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- Track Info -->
+            <div class="text-center mb-6">
+                <h2 id="fullscreen-track-title" class="text-2xl font-bold text-white mb-1 truncate">Midnight City</h2>
+                <p id="fullscreen-track-artist" class="text-gray-400 text-base truncate">M83</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mb-4">
+                <div class="w-full h-1.5 bg-gray-700/50 rounded-full overflow-hidden cursor-pointer" id="fullscreen-progress-container">
+                    <div id="fullscreen-progress-bar" class="h-full bg-gradient-to-r from-purple-500 to-blue-500 w-1/3 transition-all duration-100"></div>
+                </div>
+                <div class="flex justify-between mt-2 text-xs text-gray-400">
+                    <span id="fullscreen-current-time">0:00</span>
+                    <span id="fullscreen-total-time">0:00</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center justify-center gap-6 mb-8">
+                <button class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" id="fullscreen-shuffle-btn">
+                    <i class="fas fa-random text-white"></i>
+                </button>
+                <button class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" id="fullscreen-prev-btn">
+                    <i class="fas fa-step-backward text-white text-lg"></i>
+                </button>
+                <button class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center hover:scale-105 transition-transform shadow-lg shadow-purple-500/40" id="fullscreen-play-pause-btn">
+                    <i class="fas fa-play text-white text-xl" id="fullscreen-play-icon"></i>
+                </button>
+                <button class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" id="fullscreen-next-btn">
+                    <i class="fas fa-step-forward text-white text-lg"></i>
+                </button>
+                <button class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" id="fullscreen-repeat-btn">
+                    <i class="fas fa-redo text-white"></i>
+                </button>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="flex items-center justify-between">
+                <button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <i class="fas fa-heart text-gray-400 hover:text-red-500 transition-colors"></i>
+                </button>
+                <button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <i class="fas fa-list text-gray-400"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="audio-player" preload="metadata">
+        <source src="https://assets.codepen.io/4358584/Andromedik%20-%20Light.mp3" type="audio/mpeg">
+    </audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>

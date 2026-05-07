@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musicana - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/Vector-1.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: url(../images/Sign\ Up\ background.png);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        @media (min-width: 640px) {
+            .login-container {
+                border-radius: 20px;
+                padding: 32px;
+                max-width: 500px;
+            }
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            color: #151C27;
+        }
+
+        @media (min-width: 640px) {
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .subtitle {
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        @media (min-width: 640px) {
+            .form-group {
+                margin-bottom: 16px;
+            }
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        @media (min-width: 640px) {
+            label {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        @media (min-width: 640px) {
+            input[type="text"],
+            input[type="email"],
+            input[type="password"] {
+                padding: 10px 16px;
+            }
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 16px;
+            padding: 5px;
+            transition: color 0.3s;
+        }
+
+        .toggle-password:hover {
+            color: #8B5CF6;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        @media (min-width: 640px) {
+            button[type="submit"] {
+                margin-top: 24px;
+            }
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .form-footer {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 14px;
+        }
+
+        @media (min-width: 640px) {
+            .form-footer {
+                margin-top: 16px;
+            }
+        }
+
+        .form-footer.signup-note {
+            margin-top: 12px;
+            font-size: 11px;
+        }
+
+        @media (min-width: 640px) {
+            .form-footer.signup-note {
+                font-size: 12px;
+            }
+        }
+
+        .form-footer a,
+        .toggle-form {
+            color: #8B5CF6;
+            text-decoration: underline;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        @media (min-width: 640px) {
+            .form-footer a,
+            .toggle-form {
+                font-size: 14px;
+            }
+        }
+
+        .form-footer a:hover,
+        .toggle-form:hover {
+            color: #3B82F6;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        form {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 16px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #8B5CF6;
+        }
+
+        @media (min-width: 640px) {
+            .back-link {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Musicana</span>
+        </a>
+        
+        <!-- Login Form -->
+        <div id="loginForm">
+            <h1>Welcome back</h1>
+            <p class="subtitle">Musicana | Your Personal music world. All in one place.</p>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit">Log In</button>
+            </form>
+
+            <p class="form-footer">
+                Don&apos;t have an account? <button class="toggle-form" onclick="switchToSignup()">Sign up</button>
+            </p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupForm" class="hidden">
+            <h1>Create an account</h1>
+            <p class="subtitle">Musicana | Your Personal music world. All in one place.</p>
+
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signupUsername">First Name</label>
+                    <input type="text" id="signupUsername" placeholder="Choose a first name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupUsername">Last Name</label>
+                    <input type="text" id="signupUsername" placeholder="Choose a last rname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="signupPassword" placeholder="Create a password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('signupPassword', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <p class="form-footer signup-note">
+                By creating an account, you agree to the <span style="text-decoration: underline; cursor: pointer;">Terms of use</span> and <span style="text-decoration: underline; cursor: pointer;">Privacy Policy</span>
+            </p>
+
+            <p class="form-footer">
+                Already have account? <button class="toggle-form" onclick="switchToLogin()">Log in</button>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(fieldId, button) {
+            const field = document.getElementById(fieldId);
+            const icon = button.querySelector('i');
+            const isPassword = field.type === 'password';
+            
+            field.type = isPassword ? 'text' : 'password';
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+
+        function switchToSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+        }
+
+        function switchToLogin() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            console.log('Login attempt:', { email, password });
+            alert('Login submitted! (Demo mode)');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            console.log('Signup attempt:', { username, email, password });
+            alert('Account created! (Demo mode)');
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+        }
+    </script>
+</body>
+</html>
